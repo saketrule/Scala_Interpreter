@@ -1,16 +1,4 @@
-x < y;
-"sdaf"
-if (x != z)
-z = true;
-/*12 kdw
-"213"  */
-/*
-*/
-+
--
-?
-/
-*
-^
-<-
-=>
+val x:Bool = false
+val y = x | true
+val z = x & y | y
+val x: Int = 3 + 4*3/5

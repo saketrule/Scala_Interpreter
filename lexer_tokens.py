@@ -1,9 +1,12 @@
 RESERVED = 'RESERVED'
 LITERAL = 'LITERAL'
+CHAR = 'CHAR'
+STRING = 'STRING'
+BOOL = 'BOOL'
 INT      = 'INT'
-ID       = 'ID'
 FLOAT    = 'FLOAT'
 STRING   = 'STRING'
+ID       = 'ID'
 DATATYPE = 'DATATYPE'
 SEMI     = 'SEMI'
 PAREN    = 'PAREN'
@@ -11,6 +14,8 @@ COMPARE  = 'COMPARE'
 COMMENT  = 'COMMENT'
 OPCHAR   = 'OPCHAR'
 QUALID   = 'QUALID'
+COLON    = 'COLON'
+BOOLOP   = 'BOOLOP'
 
 tokens = [
     (r'and',                    RESERVED),
@@ -27,7 +32,7 @@ tokens = [
     (r'Int',                    DATATYPE),
     (r'Float',                  DATATYPE),
     (r'Unit',                   DATATYPE),
-    (r'Double',                 DATATYPE),
+    (r'Bool',                 DATATYPE),
     
     (r'[\(\){}\[\]]',           PAREN),
     (r'\/\/[^\n]*\n*',          COMMENT),
@@ -37,19 +42,19 @@ tokens = [
     (r'def ',                   RESERVED),
     (r'main',                   RESERVED),
     (r'import',                 RESERVED),          
-    (r'\'.\'',                  LITERAL),           ## Check what . matches
-    (r'\".*?\"',                LITERAL),
-    (r'-?[0-9]+',               LITERAL),
-    (r'[0-9]*\.[0-9]+',         LITERAL),
-    (r'(true|false)',           LITERAL),
+    (r'\'.\'',                  CHAR),           ## Check what . matches
+    (r'\".*?\"',                STRING),
+    (r'[0-9]*\.[0-9]+',         FLOAT),
+    (r'-?[0-9]+',               INT),
+    (r'(true|false)',           BOOL),
     (r'[A-Za-z][A-Za-z0-9_]*',  ID),
     (r'<-',                     OPCHAR),
     (r'=>',                     OPCHAR),            ##Not sure belongs to opchar, for anonymous functions
     (r'<=|<|==|>|>=|!=',        COMPARE),
-    (r'[\+\-\*/^\?]',           OPCHAR),
-    (r'=',                      RESERVED),
-    (r'.',                      QUALID),            ## hAVEN'T added ,
-    (r';',                      SEMI    ),
-    (r'\n+',                    SEMI    ),
+    (r'[\+\-\*/\?=]',          OPCHAR),
+    (r'[|&^]',                  BOOLOP),
+    (r'\.',                      QUALID),            ## hAVEN'T added ,
+    (r':',                      COLON),
+    (r'[\n;]+',                    SEMI    ),
     (r'[ \n\t]+',               None   ),
 ]
