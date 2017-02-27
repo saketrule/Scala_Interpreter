@@ -16,6 +16,7 @@ OPCHAR   = 'OPCHAR'
 QUALID   = 'QUALID'
 COLON    = 'COLON'
 BOOLOP   = 'BOOLOP'
+PREOPCHAR = 'PREOPCHAR'
 
 tokens = [
     (r'and',                    RESERVED),
@@ -50,6 +51,7 @@ tokens = [
     (r'[A-Za-z][A-Za-z0-9_]*',  ID),
     (r'<-',                     OPCHAR),
     (r'=>',                     OPCHAR),            ##Not sure belongs to opchar, for anonymous functions
+    (r'!',                      PREOPCHAR),
     (r'<=|<|==|>|>=|!=',        COMPARE),
     (r'[\+\-\*/\?=]',          OPCHAR),
     (r'[|&^]',                  BOOLOP),

@@ -1,4 +1,2 @@
-val x:Bool = false
-val y = x | true
-val z = x & y | y
-val x: Int = 3 + 4*3/5
+val x:Int = 5 +2;
+val y = x + 4

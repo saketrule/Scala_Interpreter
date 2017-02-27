@@ -16,13 +16,30 @@ def separator():
     return Tag(SEMI) ^ (lambda x: lambda l,r: CompoundStatement(l,r))
      
 def expr():
-    return Def() | simpleExpr()
+    return ifStmt() | Def() | simpleExpr()
     
 def simpleExpr():
     return litExp() | Path()
     
 def Path():
     return Tag(ID) ^ (lambda x: ObjectRef(x))
+
+####################IF Statement################
+def ifStmt():
+    def condition():
+        return Reserved('(',PAREN) + simpleExpr() + Reserved(')',PAREN) ^ process_group
+    def block():
+        return Reserved('{',PAREN) + Lazy(expr) + Reserved('}',PAREN) ^ process_group \
+                | simpleExpr()
+    def expr2():
+        def get_block(parsed):
+            (_,blk) = parsed
+            return blk
+        return Reserved('else',RESERVED) + block() ^ get_block
+    def par_stmt(parsed):
+        (((_,con),blk),e2) = parsed
+        return IfStmt(con,blk,e2)
+    return Reserved('if',RESERVED) + condition() + block() + Opt(expr2()) ^ par_stmt
 
 #######################EXPRESSIONS##############
 
@@ -33,12 +50,17 @@ def litExp():
     
 #####Bool
 def boolExpr():
-    return precedence(bool_term(),bool_precedence_levels,bool_Bin_Op,BOOLOP)
+    def bool_Bin_Op(op):
+        return (lambda l,r: BoolBinOp(l,op,r))
+    return precedence(bool_prefix(),bool_precedence_levels,bool_Bin_Op,BOOLOP)
     
-def booltrial():
-    return numLit() + Tag(COMPARE) + numLit() ^ rel_Bin_Op
-def bool_Bin_Op(op):
-    return (lambda l,r: BoolBinOp(l,op,r))
+    
+def bool_prefix():
+    def pre_op(parsed):
+        (op,bexp) = parsed
+        return PreOp(op,bexp)
+    return Reserved('!',PREOPCHAR) + bool_term() ^ pre_op  \
+           | bool_term()
     
 def bool_term():
     return ((numLit() + Tag(COMPARE) + numLit()) ^ rel_Bin_Op) \
