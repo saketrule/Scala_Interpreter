@@ -1,2 +1,9 @@
-val x:Int = 5 +2;
-val y = x + 4
+val x:
+Int = 3
+if
+(
+true
+)
+print(
+"no newlines registed"
+)

@@ -167,7 +167,7 @@ class ObjectRef:
             print("Error: Object %s not found " %self.name )
         
 
-class CompoundStatement:
+class CompoundStatement():
     def __init__(self, first, second):
         self.first = first
         self.second = second
@@ -177,40 +177,3 @@ class CompoundStatement:
 
     def eval(self, env):
         return ("%s,%s"%(self.first.eval(env),self.second.eval(env)))
-        
-        
-class PreOp:
-    def __init__(self, opchar, bexp):
-        self.op = opchar
-        self.bexp = bexp
-        
-    def __repr__(self):
-        return 'PreBoolOp (%s, %s)'% (self.op,self.bexp)
-        
-    def eval(self,env):
-        if(self.op == '!'):
-            return not(self.bexp.eval(env))
-        else:
-            raise RuntimeError("Invalid Prefix Operation on Boolean ")
-            
-class IfStmt:
-    def __init__(self,condition,expr1,expr2):
-        self.condition = condition
-        self.expr1 = expr1
-        self.expr2 = expr2
-        
-    def __repr__(self):
-        rep = 'If( %s ) { \n %s \n}' % (self.condition,self.expr1)
-        if self.expr2 == None:
-            return rep
-        else:
-            return rep + ' else %s \n' % (self.expr2)
-            
-    def eval(self,env):
-        truth = self.condition.eval(env)                         ##Later add env list to implement local variables
-        if truth:
-            return self.expr1.eval(env)
-        elif self.expr2 != None:
-            return self.expr2.eval(env)
-        else:
-            return None

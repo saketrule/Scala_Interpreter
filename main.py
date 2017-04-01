@@ -1,5 +1,6 @@
 ## Driver program
-## Written by Saket
+## Combinators taken from http://jayconrod.com/posts/37/a-simple-interpreter-from-scratch-in-python-part-1
+## Followed tutorial by Simple Interpreter by jayconrod
 
 import sys
 
